@@ -34,3 +34,14 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# VSCode
+.vscode/
+
+# macOS
+.DS_Store
+._*
+
+# Etc
+Proto/
+Proto.meta
