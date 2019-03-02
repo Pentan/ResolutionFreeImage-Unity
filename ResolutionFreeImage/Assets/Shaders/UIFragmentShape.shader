@@ -68,6 +68,8 @@
             #include "UnityCG.cginc"
             #include "UnityUI.cginc"
 
+            #include "ShapeUtils.cginc"
+
             #pragma multi_compile __ UNITY_UI_CLIP_RECT
             #pragma multi_compile __ UNITY_UI_ALPHACLIP
 
@@ -180,9 +182,9 @@
                 #endif
             }
 
-            float edgeWeight(float t) {
-                return smoothstep(-_EdgeSmooth, _EdgeSmooth, t);
-            }
+            // float edgeWeight(float t) {
+            //     return smoothstep(-_EdgeSmooth, _EdgeSmooth, t);
+            // }
 
             // Vertex
             v2f vert (appdata_t v)
@@ -258,9 +260,9 @@
 
                 // Composite
                 float t;
-                t = edgeWeight(d - _BornderWidth);
+                t = edgeWeight(d - _BornderWidth, _EdgeSmooth);
                 fixed4 color = lerp(bordercol, basecolor, t);
-                color.a *= edgeWeight(d);
+                color.a *= edgeWeight(d, _EdgeSmooth);
 
                 //
                 #ifdef UNITY_UI_CLIP_RECT
