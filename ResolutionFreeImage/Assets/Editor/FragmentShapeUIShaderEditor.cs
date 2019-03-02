@@ -12,11 +12,12 @@ namespace ResFreeImage.UI {
         MaterialProperty shapeTypeProp = null;
         MaterialProperty borderColorProp = null;
         MaterialProperty borderWidthProp = null;
-        MaterialProperty trimWidthProp = null;
+        MaterialProperty cornerRadiusProp = null;
         MaterialProperty edgeSmoothProp = null;
         MaterialProperty useShadingProp = null;
         MaterialProperty shadingTypeProp = null;
         MaterialProperty shadingAmbientProp = null;
+        MaterialProperty shadingMainWidth = null;
         MaterialProperty shadingMainProfileProp = null;
         MaterialProperty shadingMainPowFactorProp = null;
         MaterialProperty shadingBorderProfileProp = null;
@@ -36,11 +37,12 @@ namespace ResFreeImage.UI {
             shapeTypeProp = FindProperty("FRGSHP_SHAPE", props);
             borderColorProp = FindProperty("_BorderColor", props);
             borderWidthProp = FindProperty("_BornderWidth", props);
-            trimWidthProp = FindProperty("_TrimWidth", props);
+            cornerRadiusProp = FindProperty("_CornerRadius", props);
             edgeSmoothProp = FindProperty("_EdgeSmooth", props);
             useShadingProp = FindProperty("_UseShading", props);
             shadingTypeProp = FindProperty("FRGSHP_SHADING_TYPE", props);
             shadingAmbientProp = FindProperty("_ShadingAmbient", props);
+            shadingMainWidth = FindProperty("_ShadingMainWidth", props);
             shadingMainProfileProp = FindProperty("FRGSHP_SHADING_MAIN_PROFILE", props);
             shadingMainPowFactorProp = FindProperty("_ShadingMainPowFactor", props);
             shadingBorderProfileProp = FindProperty("FRGSHP_SHADING_BORDER_PROFILE", props);
@@ -70,7 +72,7 @@ namespace ResFreeImage.UI {
 
                 EditorGUILayout.Space();
                 makeDefaultShaderProperty(materialEditor, shapeTypeProp);
-                makeDefaultShaderProperty(materialEditor, trimWidthProp);
+                makeDefaultShaderProperty(materialEditor, cornerRadiusProp);
                 makeDefaultShaderProperty(materialEditor, edgeSmoothProp);
 
                 EditorGUILayout.Space();
@@ -83,16 +85,17 @@ namespace ResFreeImage.UI {
                     EditorGUI.indentLevel++;
                     makeDefaultShaderProperty(materialEditor, shadingTypeProp);
                     makeDefaultShaderProperty(materialEditor, shadingAmbientProp);
+                    makeDefaultShaderProperty(materialEditor, shadingMainWidth);
 
                     makeDefaultShaderProperty(materialEditor, shadingMainProfileProp);
-                    if(shadingMainProfileProp.floatValue == 2.0f) {
+                    if(shadingMainProfileProp.floatValue == 3.0f) {
                         EditorGUI.indentLevel++;
                         makeDefaultShaderProperty(materialEditor, shadingMainPowFactorProp);
                         EditorGUI.indentLevel--;
                     }
 
                     makeDefaultShaderProperty(materialEditor, shadingBorderProfileProp);
-                    if(shadingBorderProfileProp.floatValue == 2.0f) {
+                    if(shadingBorderProfileProp.floatValue == 3.0f) {
                         EditorGUI.indentLevel++;
                         makeDefaultShaderProperty(materialEditor, shadingBorderPowFactorProp);
                         EditorGUI.indentLevel--;

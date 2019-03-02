@@ -6,7 +6,7 @@
         _Color ("Tint", Color) = (1,1,1,1)
 
         [KeywordEnum(Rect, RoundRect, TrimedRect)] FRGSHP_SHAPE ("Shape Type", Float) = 0
-        _TrimWidth ("Trim Width", Float) = 4.0
+        _CornerRadius ("Corner Radius", Float) = 8.0
         _EdgeSmooth ("Edge Smooth", Range(0.0, 2.0)) = 0.5
 
         _BornderWidth ("Border Width", Float) = 0.0
@@ -15,9 +15,10 @@
         [Toggle(FRGSHP_USE_SHADING)] _UseShading ("Use Shading", Float) = 0
         [KeywordEnum(Multiply, Lerp)] FRGSHP_SHADING_TYPE ("Shading Type", Float) = 0
         _ShadingAmbient ("Shading Ambient", Color) = (0.5, 0.5, 0.5, 1.0)
-        [KeywordEnum(Linear, Sphere, Power)] FRGSHP_SHADING_MAIN_PROFILE ("Main Shading Profile", Float) = 1
+        [KeywordEnum(Linear, Sphere, Parabola, Power)] FRGSHP_SHADING_MAIN_PROFILE ("Main Shading Profile", Float) = 1
+        _ShadingMainWidth ("Main Shading Width", FLoat) = 8.0
         _ShadingMainPowFactor ("Main Shading Pow Factor", FLoat) = 4.0
-        [KeywordEnum(Linear, Sphere, Power)] FRGSHP_SHADING_BORDER_PROFILE ("Border Shading Profile", Float) = 1
+        [KeywordEnum(Linear, Sphere, Parabola, Power)] FRGSHP_SHADING_BORDER_PROFILE ("Border Shading Profile", Float) = 1
         _ShadingBorderPowFactor ("Border Shading Pow Factor", FLoat) = 4.0
 
         _StencilComp ("Stencil Comparison", Float) = 8
@@ -73,8 +74,8 @@
             #pragma shader_feature __ FRGSHP_USE_SHADING
             #pragma shader_feature FRGSHP_SHAPE_RECT FRGSHP_SHAPE_ROUNDRECT FRGSHP_SHAPE_TRIMEDRECT
             #pragma shader_feature FRGSHP_SHADING_TYPE_MULTIPLY FRGSHP_SHADING_TYPE_LERP
-            #pragma shader_feature FRGSHP_SHADING_MAIN_PROFILE_LINEAR FRGSHP_SHADING_MAIN_PROFILE_SPHERE FRGSHP_SHADING_MAIN_PROFILE_POWER
-            #pragma shader_feature FRGSHP_SHADING_BORDER_PROFILE_LINEAR FRGSHP_SHADING_BORDER_PROFILE_SPHERE FRGSHP_SHADING_BORDER_PROFILE_POWER
+            #pragma shader_feature FRGSHP_SHADING_MAIN_PROFILE_LINEAR FRGSHP_SHADING_MAIN_PROFILE_SPHERE FRGSHP_SHADING_MAIN_PROFILE_PARABOLA FRGSHP_SHADING_MAIN_PROFILE_POWER
+            #pragma shader_feature FRGSHP_SHADING_BORDER_PROFILE_LINEAR FRGSHP_SHADING_BORDER_PROFILE_SPHERE FRGSHP_SHADING_BORDER_PROFILE_PARABOLA FRGSHP_SHADING_BORDER_PROFILE_POWER
 
             struct appdata_t
             {
@@ -106,10 +107,11 @@
 
             float4 _BorderColor;
             float _BornderWidth;
-            float _TrimWidth;
+            float _CornerRadius;
 
             #ifdef FRGSHP_USE_SHADING
             fixed4 _ShadingAmbient;
+            float _ShadingMainWidth;
                 #ifdef FRGSHP_SHADING_MAIN_PROFILE_POWER
                 float _ShadingMainPowFactor;
                 #endif
@@ -156,11 +158,11 @@
                 return sqrt(1.0 - x * x);
             }
 
-            // float modifyFactorToParabola(float f) {
-            //     // Parabola
-            //     float x = 1.0 - saturate(f);
-            //     return 1.0 - x * x;
-            // }
+            float modifyFactorToParabola(float f) {
+                // Parabola
+                float x = 1.0 - saturate(f);
+                return 1.0 - x * x;
+            }
 
             float modifyFactorToPow(float f, float p) {
                 // Pow
@@ -209,7 +211,7 @@
                 // Shape
                 float2 rectcoord = i.rectParams.xy;
                 float2 rectsize = i.rectParams.zw;
-                float d = distanceFromShape(rectcoord, rectsize, _TrimWidth);
+                float d = distanceFromShape(rectcoord, rectsize, _CornerRadius);
                 d -= _EdgeSmooth;
                 // d /= min(rectsize.x, rectsize.y) * 0.25;
 
@@ -218,13 +220,16 @@
                 float shade;
                 
                 // Base
-                shade = (d - _BornderWidth) / (_TrimWidth - _BornderWidth);
+                shade = (d - _BornderWidth) / (_ShadingMainWidth - _BornderWidth);
                 
                 #ifdef FRGSHP_SHADING_MAIN_PROFILE_LINEAR
                 // noop
                 #endif
                 #ifdef FRGSHP_SHADING_MAIN_PROFILE_SPHERE
                 shade = modifyFactorToSphere(shade);
+                #endif
+                #ifdef FRGSHP_SHADING_MAIN_PROFILE_PARABOLA
+                shade = modifyFactorToParabola(shade);
                 #endif
                 #ifdef FRGSHP_SHADING_MAIN_PROFILE_POWER
                 shade = modifyFactorToPow(shade, _ShadingMainPowFactor);
@@ -240,6 +245,9 @@
                 #endif
                 #ifdef FRGSHP_SHADING_BORDER_PROFILE_SPHERE
                 shade = modifyFactorToSphere(shade);
+                #endif
+                #ifdef FRGSHP_SHADING_BORDER_PROFILE_PARABOLA
+                shade = modifyFactorToParabola(shade);
                 #endif
                 #ifdef FRGSHP_SHADING_BORDER_PROFILE_POWER
                 shade = modifyFactorToPow(shade, _ShadingBorderPowFactor);
