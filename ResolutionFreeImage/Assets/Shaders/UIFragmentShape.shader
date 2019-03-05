@@ -6,10 +6,12 @@
         _Color ("Tint", Color) = (1,1,1,1)
 
         [KeywordEnum(Rect, RoundRect, TrimedRect)] FRGSHP_SHAPE ("Shape Type", Float) = 0
-        _CornerRadius ("Corner Radius", Float) = 8.0
         _EdgeSmooth ("Edge Smooth", Range(0.0, 2.0)) = 0.5
-
+        
+        _CornerRadius ("Corner Radius", Float) = 8.0
         _BornderWidth ("Border Width", Float) = 0.0
+        [Toggle(FRGSHP_UV2OVERRIDE)] _UV2Override ("Override above params by Componet.", Float) = 0
+
         _BorderColor ("BorderColor", Color) = (0.2,0.2,0.2,1)
 
         [Toggle(FRGSHP_USE_SHADING)] _UseShading ("Use Shading", Float) = 0
@@ -20,6 +22,11 @@
         _ShadingMainPowFactor ("Main Shading Pow Factor", FLoat) = 4.0
         [KeywordEnum(Linear, Sphere, Parabola, Power)] FRGSHP_SHADING_BORDER_PROFILE ("Border Shading Profile", Float) = 1
         _ShadingBorderPowFactor ("Border Shading Pow Factor", FLoat) = 4.0
+
+        [Toggle(FRGSHP_USE_OUTLINEGLOW)] _UseOutlineGlow ("Use Outline Glow", Float) = 0
+        _OutlineGlowWidth ("Outline glow width", Float) = 8.0
+        _OutlineGlowColor ("Outline glow color", Color) = (0.0, 0.0, 0.0, 0.5)
+        _OutlineGlowFade ("Outline glow fade factor", Float) = 2.0
 
         _StencilComp ("Stencil Comparison", Float) = 8
         _Stencil ("Stencil ID", Float) = 0
@@ -74,6 +81,8 @@
             #pragma multi_compile __ UNITY_UI_ALPHACLIP
 
             #pragma shader_feature __ FRGSHP_USE_SHADING
+            #pragma shader_feature __ FRGSHP_UV2OVERRIDE
+            #pragma shader_feature __ FRGSHP_USE_OUTLINEGLOW
             #pragma shader_feature FRGSHP_SHAPE_RECT FRGSHP_SHAPE_ROUNDRECT FRGSHP_SHAPE_TRIMEDRECT
             #pragma shader_feature FRGSHP_SHADING_TYPE_MULTIPLY FRGSHP_SHADING_TYPE_LERP
             #pragma shader_feature FRGSHP_SHADING_MAIN_PROFILE_LINEAR FRGSHP_SHADING_MAIN_PROFILE_SPHERE FRGSHP_SHADING_MAIN_PROFILE_PARABOLA FRGSHP_SHADING_MAIN_PROFILE_POWER
@@ -84,8 +93,8 @@
                 float4 vertex : POSITION;
                 float4 color : COLOR;
                 float2 uv0 : TEXCOORD0;
-                float2 uv1 : TEXCOORD1;
-                // float2 uv2 : TEXCOORD2;
+                float2 uv1 : TEXCOORD1; // Shape bound (width, height)
+                float2 uv2 : TEXCOORD2; // Override (corner radius, border width)
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -96,6 +105,7 @@
                 float2 texcoord : TEXCOORD0;
                 float4 worldPosition : TEXCOORD1;
                 float4 rectParams : TEXCOORD2;
+                float2 shapeParams : TEXCOORD3;
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
@@ -120,6 +130,12 @@
                 #ifdef FRGSHP_SHADING_BORDER_PROFILE_POWER
                 float _ShadingBorderPowFactor;
                 #endif
+            #endif
+
+            #ifdef FRGSHP_USE_OUTLINEGLOW
+            float _OutlineGlowWidth;
+            fixed4 _OutlineGlowColor;
+            float _OutlineGlowFade;
             #endif
 
             // Utilities
@@ -200,20 +216,42 @@
                 o.rectParams.xy = v.uv0 * v.uv1;
                 o.rectParams.zw = v.uv1;
 
+                #ifdef FRGSHP_UV2OVERRIDE
+                o.shapeParams = v.uv2;
+                #else
+                o.shapeParams = float2(-1.0, -1.0);
+                #endif
+
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
+                // Params
+                float cornerR;
+                float borderW;
+
+                #ifdef FRGSHP_UV2OVERRIDE
+                cornerR = (i.shapeParams.x < 0.0) ? _CornerRadius : i.shapeParams.x;
+                borderW = (i.shapeParams.y < 0.0) ? _BornderWidth : i.shapeParams.y;
+                #else
+                cornerR = _CornerRadius;
+                borderW = _BornderWidth;
+                #endif
+
                 // Colors
                 fixed4 basecolor = (tex2D(_MainTex, i.texcoord) + _TextureSampledAdd) * i.color;
                 // color.rgb = float3(i.texcoord.x, i.texcoord.y, 0.0);
-                fixed4 bordercol = _BorderColor;
+                fixed4 bordercol = _BorderColor * i.color;
 
                 // Shape
                 float2 rectcoord = i.rectParams.xy;
                 float2 rectsize = i.rectParams.zw;
-                float d = distanceFromShape(rectcoord, rectsize, _CornerRadius);
+                #ifdef FRGSHP_USE_OUTLINEGLOW
+                rectcoord -= float2(_OutlineGlowWidth, _OutlineGlowWidth);
+                rectsize -= float2(_OutlineGlowWidth, _OutlineGlowWidth) * 2.0;
+                #endif
+                float d = distanceFromShape(rectcoord, rectsize, cornerR);
                 d -= _EdgeSmooth;
                 // d /= min(rectsize.x, rectsize.y) * 0.25;
 
@@ -222,7 +260,7 @@
                 float shade;
                 
                 // Base
-                shade = (d - _BornderWidth) / (_ShadingMainWidth - _BornderWidth);
+                shade = (d - borderW) / (_ShadingMainWidth - borderW);
                 
                 #ifdef FRGSHP_SHADING_MAIN_PROFILE_LINEAR
                 // noop
@@ -240,7 +278,7 @@
                 basecolor.rgb = applyShading(basecolor.rgb, _ShadingAmbient.rgb, shade);
 
                 // Border
-                shade = d / _BornderWidth;
+                shade = d / borderW;
                 shade = min(shade, 1.0 - shade) * 2.0;
                 #ifdef FRGSHP_SHADING_BORDER_PROFILE_LINEAR
                 // noop
@@ -260,9 +298,18 @@
 
                 // Composite
                 float t;
-                t = edgeWeight(d - _BornderWidth, _EdgeSmooth);
+                t = edgeWeight(d - borderW, _EdgeSmooth);
                 fixed4 color = lerp(bordercol, basecolor, t);
                 color.a *= edgeWeight(d, _EdgeSmooth);
+                
+                // Outline glow
+                #ifdef FRGSHP_USE_OUTLINEGLOW
+                t = pow(saturate(1.0 - max(0.0, -d / _OutlineGlowWidth)), _OutlineGlowFade);
+                fixed4 glowcol = _OutlineGlowColor;
+                glowcol.a = lerp(0.0, _OutlineGlowColor.a, t);
+                color.rgb = lerp(glowcol.rgb, color.rgb, edgeWeight(d, _EdgeSmooth));
+                color.a = max(color.a, glowcol.a * smoothstep(_EdgeSmooth, 0.0, d));
+                #endif
 
                 //
                 #ifdef UNITY_UI_CLIP_RECT

@@ -13,6 +13,7 @@ namespace ResFreeImage.UI {
         MaterialProperty borderColorProp = null;
         MaterialProperty borderWidthProp = null;
         MaterialProperty cornerRadiusProp = null;
+        MaterialProperty  uv2OverirdeProp = null;
         MaterialProperty edgeSmoothProp = null;
         MaterialProperty useShadingProp = null;
         MaterialProperty shadingTypeProp = null;
@@ -22,7 +23,11 @@ namespace ResFreeImage.UI {
         MaterialProperty shadingMainPowFactorProp = null;
         MaterialProperty shadingBorderProfileProp = null;
         MaterialProperty shadingBorderPowFactorProp = null;
-
+        MaterialProperty useOutlineGlowProp = null;
+        MaterialProperty outlineGlowWidthProp = null;
+        MaterialProperty outlineGlowColorProp = null;
+        MaterialProperty outlineGlowFadeProp = null;
+        
         MaterialProperty stencilCompProp = null;
         MaterialProperty stencilProp = null;
         MaterialProperty stencilOpProp = null;
@@ -38,6 +43,7 @@ namespace ResFreeImage.UI {
             borderColorProp = FindProperty("_BorderColor", props);
             borderWidthProp = FindProperty("_BornderWidth", props);
             cornerRadiusProp = FindProperty("_CornerRadius", props);
+            uv2OverirdeProp = FindProperty("_UV2Override", props);
             edgeSmoothProp = FindProperty("_EdgeSmooth", props);
             useShadingProp = FindProperty("_UseShading", props);
             shadingTypeProp = FindProperty("FRGSHP_SHADING_TYPE", props);
@@ -47,6 +53,10 @@ namespace ResFreeImage.UI {
             shadingMainPowFactorProp = FindProperty("_ShadingMainPowFactor", props);
             shadingBorderProfileProp = FindProperty("FRGSHP_SHADING_BORDER_PROFILE", props);
             shadingBorderPowFactorProp = FindProperty("_ShadingBorderPowFactor", props);
+            useOutlineGlowProp = FindProperty("_UseOutlineGlow", props);
+            outlineGlowWidthProp = FindProperty("_OutlineGlowWidth", props);
+            outlineGlowColorProp = FindProperty("_OutlineGlowColor", props);
+            outlineGlowFadeProp = FindProperty("_OutlineGlowFade", props);
 
             stencilCompProp = FindProperty("_StencilComp", props);
             stencilProp = FindProperty("_Stencil", props);
@@ -72,12 +82,15 @@ namespace ResFreeImage.UI {
 
                 EditorGUILayout.Space();
                 makeDefaultShaderProperty(materialEditor, shapeTypeProp);
-                makeDefaultShaderProperty(materialEditor, cornerRadiusProp);
                 makeDefaultShaderProperty(materialEditor, edgeSmoothProp);
 
                 EditorGUILayout.Space();
-                makeDefaultShaderProperty(materialEditor, borderColorProp);
+                makeDefaultShaderProperty(materialEditor, cornerRadiusProp);
                 makeDefaultShaderProperty(materialEditor, borderWidthProp);
+                makeDefaultShaderProperty(materialEditor, uv2OverirdeProp);
+
+                EditorGUILayout.Space();
+                makeDefaultShaderProperty(materialEditor, borderColorProp);
 
                 EditorGUILayout.Space();
                 makeDefaultShaderProperty(materialEditor, useShadingProp);
@@ -101,6 +114,14 @@ namespace ResFreeImage.UI {
                         EditorGUI.indentLevel--;
                     }
                     EditorGUI.indentLevel--;
+                }
+
+                EditorGUILayout.Space();
+                makeDefaultShaderProperty(materialEditor, useOutlineGlowProp);
+                if(useOutlineGlowProp.floatValue != 0.0f) {
+                    makeDefaultShaderProperty(materialEditor, outlineGlowWidthProp);
+                    makeDefaultShaderProperty(materialEditor, outlineGlowColorProp);
+                    makeDefaultShaderProperty(materialEditor, outlineGlowFadeProp);
                 }
 
                 EditorGUILayout.Space();

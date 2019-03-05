@@ -13,12 +13,16 @@ namespace ResFreeImage.UI {
     {
         protected SerializedProperty textureProp;
         protected SerializedProperty marginProp;
+        protected SerializedProperty overrideCornerRadiusProp;
+        protected SerializedProperty overrideBorderWidthProp;
 
         protected override void OnEnable() {
             base.OnEnable();
 
             textureProp = serializedObject.FindProperty("texture");
             marginProp = serializedObject.FindProperty("margin");
+            overrideCornerRadiusProp = serializedObject.FindProperty("overrideCornerRadius");
+            overrideBorderWidthProp = serializedObject.FindProperty("overrideBorderWidth");
         }
 
         public override void OnInspectorGUI() {
@@ -37,10 +41,14 @@ namespace ResFreeImage.UI {
                 EditorGUILayout.Space();
                 EditorGUILayout.PropertyField(textureProp);
                 EditorGUILayout.PropertyField(marginProp, true);
+                EditorGUILayout.Space();
+                EditorGUILayout.PropertyField(overrideCornerRadiusProp);
+                EditorGUILayout.PropertyField(overrideBorderWidthProp);
 
-                if((canvas.additionalShaderChannels & AdditionalCanvasShaderChannels.TexCoord1) == 0) {
+                var shaderChFlags = AdditionalCanvasShaderChannels.TexCoord1 | AdditionalCanvasShaderChannels.TexCoord2;
+                if((canvas.additionalShaderChannels & shaderChFlags) != shaderChFlags) {
                     EditorGUILayout.Space();
-                    string msg = "FragmentShape use Texcoord1. Check \"Additional Shader Channel\" field of Canvas (" + canvas.name + ").";
+                    string msg = "FragmentShape use Texcoord1 and Texcoord2. Check \"Additional Shader Channel\" field of Canvas (" + canvas.name + ").";
                     EditorGUILayout.HelpBox(msg, MessageType.Error);
                 }
             }

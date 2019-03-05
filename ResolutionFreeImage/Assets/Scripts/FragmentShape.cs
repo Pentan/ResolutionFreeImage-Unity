@@ -10,6 +10,9 @@ namespace ResFreeImage.UI {
         
         public BoundRect margin;
 
+        public float overrideCornerRadius = -1.0f;
+        public float overrideBorderWidth = -1.0f;
+
         // Start is called before the first frame update
         // void Start()
         // {
@@ -51,16 +54,24 @@ namespace ResFreeImage.UI {
             vh.Clear();
 
             UIVertex uiv = UIVertex.simpleVert;
+            var uiverts = new List<UIVertex>(4);
             foreach(var v in verts) {
                 uiv.position = new Vector2(v.x, v.y);
                 uiv.uv0 = new Vector2((v.x - xmin) / w, (v.y - ymin) / h);
                 uiv.uv1 = new Vector2(w, h);
+                uiv.uv2 = new Vector2(overrideCornerRadius, overrideBorderWidth);
                 uiv.color = color;
-                vh.AddVert(uiv);
+                // vh.AddVert(uiv); // This method is not assign uv2 in 2018.3.6f1.
+                uiverts.Add(uiv);
             }
+            // vh.AddTriangle(0, 1, 2);
+            // vh.AddTriangle(2, 3, 0);
 
-            vh.AddTriangle(0, 1, 2);
-            vh.AddTriangle(2, 3, 0);
+            var triinds = new List<int>(new int[] {
+                0, 1, 2,
+                2, 3, 0
+            });
+            vh.AddUIVertexStream(uiverts, triinds);
         }
     }
 }
