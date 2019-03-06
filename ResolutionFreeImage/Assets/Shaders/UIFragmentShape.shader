@@ -5,7 +5,7 @@
         [PerShaderData] _MainTex ("Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
 
-        [KeywordEnum(Rect, RoundRect, TrimedRect)] FRGSHP_SHAPE ("Shape Type", Float) = 0
+        [KeywordEnum(Rect, Capsule, RoundRect, TrimedRect)] FRGSHP_SHAPE ("Shape Type", Float) = 0
         _EdgeSmooth ("Edge Smooth", Range(0.0, 2.0)) = 0.5
         
         _CornerRadius ("Corner Radius", Float) = 8.0
@@ -76,6 +76,7 @@
             #include "UnityUI.cginc"
 
             #include "ShapeUtils.cginc"
+            #include "ShapeFuncs.cginc"
 
             #pragma multi_compile __ UNITY_UI_CLIP_RECT
             #pragma multi_compile __ UNITY_UI_ALPHACLIP
@@ -83,7 +84,7 @@
             #pragma shader_feature __ FRGSHP_USE_SHADING
             #pragma shader_feature __ FRGSHP_UV2OVERRIDE
             #pragma shader_feature __ FRGSHP_USE_OUTLINEGLOW
-            #pragma shader_feature FRGSHP_SHAPE_RECT FRGSHP_SHAPE_ROUNDRECT FRGSHP_SHAPE_TRIMEDRECT
+            #pragma shader_feature FRGSHP_SHAPE_RECT FRGSHP_SHAPE_CAPSULE FRGSHP_SHAPE_ROUNDRECT FRGSHP_SHAPE_TRIMEDRECT
             #pragma shader_feature FRGSHP_SHADING_TYPE_MULTIPLY FRGSHP_SHADING_TYPE_LERP
             #pragma shader_feature FRGSHP_SHADING_MAIN_PROFILE_LINEAR FRGSHP_SHADING_MAIN_PROFILE_SPHERE FRGSHP_SHADING_MAIN_PROFILE_PARABOLA FRGSHP_SHADING_MAIN_PROFILE_POWER
             #pragma shader_feature FRGSHP_SHADING_BORDER_PROFILE_LINEAR FRGSHP_SHADING_BORDER_PROFILE_SPHERE FRGSHP_SHADING_BORDER_PROFILE_PARABOLA FRGSHP_SHADING_BORDER_PROFILE_POWER
@@ -142,50 +143,23 @@
             float distanceFromShape(float2 p, float2 s, float r) {
                 // Rect
                 #ifdef FRGSHP_SHAPE_RECT
-                float2 hs = s * 0.5;
-                float2 cp = hs - abs(p - hs);
-                return min(cp.x, cp.y);
+                return distanceFromRect(p, s);
+                #endif
+                
+                // Capsule
+                #ifdef FRGSHP_SHAPE_CAPSULE
+                return distanceFromCapsule(p, s);
                 #endif
 
                 // Round Rect
                 #ifdef FRGSHP_SHAPE_ROUNDRECT
-                float2 hs = s * 0.5;
-                float2 ap = abs(p - hs);
-                float2 cp = float2(hs.x - r, hs.y - r);
-                float2 vac = ap - cp;
-
-                float d0 = min(0.0, max(vac.x, vac.y));
-                float d1 = length(max(float2(0.0, 0.0), vac));
-
-                return r - (d0 + d1);
+                return distanceFromRoundRect(p, s, r);
                 #endif
 
                 // Trimed Rect
                 #ifdef FRGSHP_SHAPE_TRIMEDRECT
-                float2 hs = s * 0.5;
-                float2 ap = abs(p - hs);
-                float2 rp = hs - ap;
-                float td = dot(ap - (hs - float2(r, 0.0)), float2(-0.707106781, -0.707106781));
-                return min(td, min(rp.x, rp.y));
+                return distanceFromTrimedRect(p, s, r);
                 #endif
-            }
-
-            float modifyFactorToSphere(float f) {
-                // Half Sphere
-                float x = 1.0 - saturate(f);
-                return sqrt(1.0 - x * x);
-            }
-
-            float modifyFactorToParabola(float f) {
-                // Parabola
-                float x = 1.0 - saturate(f);
-                return 1.0 - x * x;
-            }
-
-            float modifyFactorToPow(float f, float p) {
-                // Pow
-                float x = 1.0 - saturate(f);
-                return 1.0 - pow(x, p);
             }
 
             fixed3 applyShading(fixed3 rgb, fixed3 ambient, float factor) {
@@ -197,10 +171,6 @@
                 return lerp(ambient, rgb, saturate(factor));
                 #endif
             }
-
-            // float edgeWeight(float t) {
-            //     return smoothstep(-_EdgeSmooth, _EdgeSmooth, t);
-            // }
 
             // Vertex
             v2f vert (appdata_t v)
