@@ -5,6 +5,7 @@
         [PerShaderData] _MainTex ("Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
 
+        _BaseColor ("Base Color", Color) = (1,1,1,1)
         [KeywordEnum(Rect, Capsule, RoundRect, TrimedRect)] FRGSHP_SHAPE ("Shape Type", Float) = 0
         _EdgeSmooth ("Edge Smooth", Range(0.0, 2.0)) = 0.5
         
@@ -116,6 +117,7 @@
             fixed4 _TextureSampledAdd;
             float4 _ClipRect;
 
+            fixed4 _BaseColor;
             float _EdgeSmooth;
 
             float4 _BorderColor;
@@ -210,7 +212,7 @@
                 #endif
 
                 // Colors
-                fixed4 basecolor = (tex2D(_MainTex, i.texcoord) + _TextureSampledAdd) * i.color;
+                fixed4 basecolor = (tex2D(_MainTex, i.texcoord) + _TextureSampledAdd) * _BaseColor * i.color;
                 // color.rgb = float3(i.texcoord.x, i.texcoord.y, 0.0);
                 fixed4 bordercol = _BorderColor * i.color;
 
@@ -226,11 +228,12 @@
                 // d /= min(rectsize.x, rectsize.y) * 0.25;
 
                 // Modify Colors
+                // Shading
                 #ifdef FRGSHP_USE_SHADING
                 float shade;
                 
                 // Base
-                shade = (d - borderW) / (_ShadingMainWidth - borderW);
+                shade = (d - borderW) / _ShadingMainWidth;
                 
                 #ifdef FRGSHP_SHADING_MAIN_PROFILE_LINEAR
                 // noop
@@ -248,7 +251,7 @@
                 basecolor.rgb = applyShading(basecolor.rgb, _ShadingAmbient.rgb, shade);
 
                 // Border
-                shade = d / borderW;
+                shade = (borderW > 0.0) ? (d / borderW) : 0.0;
                 shade = min(shade, 1.0 - shade) * 2.0;
                 #ifdef FRGSHP_SHADING_BORDER_PROFILE_LINEAR
                 // noop

@@ -9,6 +9,7 @@ namespace ResFreeImage.UI {
     {
         MaterialProperty mainTexProp = null;
         MaterialProperty tintColorProp = null;
+        MaterialProperty baseColorProp = null;
         MaterialProperty shapeTypeProp = null;
         MaterialProperty borderColorProp = null;
         MaterialProperty borderWidthProp = null;
@@ -39,6 +40,7 @@ namespace ResFreeImage.UI {
         public void FindRequireProperties(MaterialProperty[] props) {
             mainTexProp = FindProperty("_MainTex", props);
             tintColorProp = FindProperty("_Color", props);
+            baseColorProp = FindProperty("_BaseColor", props);
             shapeTypeProp = FindProperty("FRGSHP_SHAPE", props);
             borderColorProp = FindProperty("_BorderColor", props);
             borderWidthProp = FindProperty("_BornderWidth", props);
@@ -81,6 +83,7 @@ namespace ResFreeImage.UI {
                 makeDefaultShaderProperty(materialEditor, tintColorProp);
 
                 EditorGUILayout.Space();
+                makeDefaultShaderProperty(materialEditor, baseColorProp);
                 makeDefaultShaderProperty(materialEditor, shapeTypeProp);
                 makeDefaultShaderProperty(materialEditor, edgeSmoothProp);
 
@@ -119,9 +122,11 @@ namespace ResFreeImage.UI {
                 EditorGUILayout.Space();
                 makeDefaultShaderProperty(materialEditor, useOutlineGlowProp);
                 if(useOutlineGlowProp.floatValue != 0.0f) {
+                    EditorGUI.indentLevel++;
                     makeDefaultShaderProperty(materialEditor, outlineGlowWidthProp);
                     makeDefaultShaderProperty(materialEditor, outlineGlowColorProp);
                     makeDefaultShaderProperty(materialEditor, outlineGlowFadeProp);
+                    EditorGUI.indentLevel--;
                 }
 
                 EditorGUILayout.Space();
