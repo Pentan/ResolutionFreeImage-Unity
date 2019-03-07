@@ -7,10 +7,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FragShapeDemo02
+  m_Name: CapsuleDemoBase
   m_Shader: {fileID: 4800000, guid: 280dae04bb71b41bab15c7e0e878fa28, type: 3}
   m_ShaderKeywords: FRGSHP_SHADING_BORDER_PROFILE_SPHERE FRGSHP_SHADING_MAIN_PROFILE_SPHERE
-    FRGSHP_SHADING_TYPE_MULTIPLY FRGSHP_SHAPE_ROUNDRECT FRGSHP_USE_SHADING
+    FRGSHP_SHADING_TYPE_MULTIPLY FRGSHP_SHAPE_CAPSULE FRGSHP_UV2OVERRIDE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -61,9 +61,10 @@ Material:
     - FRGSHP_SHADING_MAIN_PROFILE: 1
     - FRGSHP_SHADING_TYPE: 0
     - FRGSHP_SHAPE: 1
-    - _BornderWidth: 4
+    - _BornderWidth: 0
     - _BumpScale: 1
     - _ColorMask: 15
+    - _CornerRadius: 8
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -74,9 +75,12 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
+    - _OutlineGlowFade: 2
+    - _OutlineGlowWidth: 8
     - _Parallax: 0.02
     - _ShadingBorderPowFactor: 4
     - _ShadingMainPowFactor: 4
+    - _ShadingMainWidth: 8
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -86,12 +90,16 @@ Material:
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
     - _TrimWidth: 16
+    - _UV2Override: 1
     - _UVSec: 0
-    - _UseShading: 1
+    - _UseOutlineGlow: 0
+    - _UseShading: 0
     - _UseUIAlphaClip: 0
     - _ZWrite: 1
     m_Colors:
-    - _BorderColor: {r: 0.5007565, g: 0.6942174, b: 0.8773585, a: 1}
-    - _Color: {r: 0.8254717, g: 0.9037727, b: 1, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BorderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ShadingAmbient: {r: 0.503827, g: 0.566642, b: 0.6981132, a: 1}
+    - _OutlineGlowColor: {r: 0, g: 0, b: 0, a: 0.5}
+    - _ShadingAmbient: {r: 0.5, g: 0.5, b: 0.5, a: 1}
