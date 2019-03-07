@@ -23,4 +23,12 @@ float modifyFactorToPow(float f, float p) {
     return 1.0 - pow(x, p);
 }
 
+float glslmod(float x, float y) {
+    return x - y * floor(x / y);
+}
+
+float2 glslmod(float2 x, float2 y) {
+    return x - y * floor(x / y);
+}
+
 #endif

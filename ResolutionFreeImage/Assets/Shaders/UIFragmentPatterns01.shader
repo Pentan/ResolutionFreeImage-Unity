@@ -5,6 +5,7 @@
         [PerShaderData] _MainTex ("Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
 
+        [KeywordEnum(Local, World)] FRGPTN_COORD ("Coordinate", Float) = 0
         _PatternUnit ("Pattern Unit", Float) = 32.0
         _EdgeSmooth ("Edge Smooth", Range(0.0, 2.0)) = 0.5
 
@@ -70,6 +71,7 @@
             #pragma multi_compile __ UNITY_UI_CLIP_RECT
             #pragma multi_compile __ UNITY_UI_ALPHACLIP
 
+            #pragma shader_feature FRGPTN_COORD_LOCAL FRGPTN_COORD_WORLD
             // #pragma shader_feature __ FRGSHP_USE_SHADING
             // #pragma shader_feature FRGSHP_SHAPE_RECT FRGSHP_SHAPE_ROUNDRECT FRGSHP_SHAPE_TRIMEDRECT
             #pragma multi_compile FRGPTN_TYPE_CHECKER FRGPTN_TYPE_REGULAR_DOTS FRGPTN_TYPE_STAGGER_DOTS FRGPTN_TYPE_HOUNDSTOOTH FRGPTN_TYPE_SIMPLE_TARTAN FRGPTN_TYPE_ARGYLE
@@ -137,7 +139,13 @@
                 fixed4 basecolor = (tex2D(_MainTex, i.texcoord) + _TextureSampledAdd) * i.color;
                 // color.rgb = float3(i.texcoord.x, i.texcoord.y, 0.0);
                 
+                #ifdef FRGPTN_COORD_LOCAL
                 float2 rectcoord = i.rectParams.xy;
+                #endif
+                #ifdef FRGPTN_COORD_WORLD
+                float2 rectcoord = i.worldPosition.xy;
+                #endif
+
                 float2 rectsize = i.rectParams.zw;
 
                 float2 p = rectcoord / _PatternUnit;

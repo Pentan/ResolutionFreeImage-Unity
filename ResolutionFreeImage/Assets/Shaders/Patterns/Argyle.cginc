@@ -9,7 +9,7 @@
 fixed4 argylePattern(float2 uv, float es, float asp, float lw, fixed4 basecol0, fixed4 basecol1, fixed4 linecol) {
     float2 SIZE = float2(asp, 1.0);
 
-    float2 p = fmod(uv, SIZE) * 2.0 - SIZE;
+    float2 p = glslmod(uv, SIZE) * 2.0 - SIZE;
     p = abs(p);
 
     // Square
@@ -20,8 +20,8 @@ fixed4 argylePattern(float2 uv, float es, float asp, float lw, fixed4 basecol0, 
     d1 *= 0.5;
 
     fixed4 col;
-    // rgb.xy = p;
-    // rgb.xy = ap;
+    // col = fixed4(p.x, p.y, 0.0, 1.0);
+    // col.xy = ap;
     // float d;
     // d = d0;
     // d = d1;

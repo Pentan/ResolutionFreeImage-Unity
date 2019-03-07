@@ -36,6 +36,7 @@ namespace ResFreeImage.UI {
         //
         MaterialProperty mainTexProp = null;
         MaterialProperty tintColorProp = null;
+        MaterialProperty coordinateProp = null;
         MaterialProperty patternUnitProp = null;
         MaterialProperty edgeSmoothProp = null;
         MaterialProperty patternTypeProp = null;
@@ -57,6 +58,7 @@ namespace ResFreeImage.UI {
             mainTexProp = FindProperty("_MainTex", props);
             tintColorProp = FindProperty("_Color", props);
 
+            coordinateProp = FindProperty("FRGPTN_COORD", props);
             patternUnitProp = FindProperty("_PatternUnit", props);
             edgeSmoothProp = FindProperty("_EdgeSmooth", props);
 
@@ -98,6 +100,7 @@ namespace ResFreeImage.UI {
                 makeDefaultShaderProperty(materialEditor, tintColorProp);
 
                 EditorGUILayout.Space();
+                makeDefaultShaderProperty(materialEditor, coordinateProp);
                 makeDefaultShaderProperty(materialEditor, patternUnitProp);
                 makeDefaultShaderProperty(materialEditor, edgeSmoothProp);
 
