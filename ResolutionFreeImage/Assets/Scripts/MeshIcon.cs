@@ -73,6 +73,9 @@ namespace ResFreeImage.UI {
         public bool removeBackFace = false;
         public SortMode sortTriangles = SortMode.None;
 
+        public bool keepMeshOrigin = false;
+        public bool keepMeshZ = false;
+
         public override Texture mainTexture {
             get {
                 if (texture == null) {
@@ -86,10 +89,6 @@ namespace ResFreeImage.UI {
         }
 
         protected override void OnPopulateMesh(VertexHelper vh) {
-            if(sourceMesh == null) {
-                return;
-            }
-
             var recttransform = gameObject.transform as RectTransform;
             var rect = recttransform.rect;
             rect.xMin += margin.left;
@@ -97,6 +96,11 @@ namespace ResFreeImage.UI {
             rect.yMin += margin.bottom;
             rect.yMax -= margin.top;
             // Debug.Log("rect:" + rect.ToString() + "\ncenter:" + rect.center.ToString());
+
+            if(sourceMesh == null) {
+                PolulateQuad(vh, rect);
+                return;
+            }
             
             var meshsize = sourceMesh.bounds.size;
 
@@ -119,13 +123,16 @@ namespace ResFreeImage.UI {
                     scale = Vector3.one;
                     break;
             }
+            
+            float extraScaleZ = keepMeshZ? 1.0f : 0.0f;
 
             // Debug.Log("rect w:" + rect.width + ",h:" + rect.height);
             // Debug.Log("bounds:(w:" + meshsize.x + ",h:" + meshsize.y);
             // Debug.Log("scale:" + scale.ToString());
             
             // Calc offsets
-            var meshcenter = sourceMesh.bounds.center;
+            var meshcenter = keepMeshOrigin ? Vector3.zero : sourceMesh.bounds.center;
+
             var rectoffset = Vector3.zero;
             rectoffset.x = rect.center.x;
             rectoffset.y = rect.center.y;
@@ -137,10 +144,16 @@ namespace ResFreeImage.UI {
             var vcount = sourceMesh.vertexCount;
             UIVertex uiv = UIVertex.simpleVert;
             var uiverts = new List<UIVertex>(vcount);
+            var vertposs = new List<Vector3>(vcount);
+
             for(int i = 0; i < vcount; i++) {
-                uiv.position = sourceMesh.vertices[i] - meshcenter;
-                uiv.position.Scale(scale);
-                uiv.position += rectoffset;
+                var pos = sourceMesh.vertices[i] - meshcenter;
+                pos.Scale(scale);
+                pos += rectoffset;
+                vertposs.Add(pos);
+                
+                pos.z *= extraScaleZ;
+                uiv.position = pos;
                 uiv.normal = sourceMesh.normals[i];
                 uiv.tangent = sourceMesh.tangents[i];
                 if(useMeshVertexColor) {
@@ -175,9 +188,9 @@ namespace ResFreeImage.UI {
                         int i0 = sourceMesh.triangles[i];
                         int i1 = sourceMesh.triangles[i + 1];
                         int i2 = sourceMesh.triangles[i + 2];
-                        var v0 = uiverts[i0].position;
-                        var v1 = uiverts[i1].position;
-                        var v2 = uiverts[i2].position;
+                        var v0 = vertposs[i0];
+                        var v1 = vertposs[i1];
+                        var v2 = vertposs[i2];
                         var v01 = v1 - v0;
                         var v02 = v2 - v0;
                         var n = Vector3.Cross(v01, v02);
@@ -196,9 +209,9 @@ namespace ResFreeImage.UI {
                             sourceMesh.triangles[i + 2]
                         );
                         triface.SetVertices(
-                            uiverts[triface.i0].position,
-                            uiverts[triface.i1].position,
-                            uiverts[triface.i2].position
+                            vertposs[triface.i0],
+                            vertposs[triface.i1],
+                            vertposs[triface.i2]
                         );
                         faces.Add(triface);
                     }
@@ -230,5 +243,26 @@ namespace ResFreeImage.UI {
             vh.AddUIVertexStream(uiverts, indices);
         }
 
+        private void PolulateQuad(VertexHelper vh, Rect rect) {
+            vh.Clear();
+                Vector2[] verts = {
+                    new Vector2(rect.xMin, rect.yMin),
+                    new Vector2(rect.xMin, rect.yMax),
+                    new Vector2(rect.xMax, rect.yMax),
+                    new Vector2(rect.xMax, rect.yMin)
+                };
+
+                vh.Clear();
+
+                UIVertex uiv = UIVertex.simpleVert;
+                foreach(var v in verts) {
+                    uiv.position = new Vector2(v.x, v.y);
+                    uiv.uv0 = new Vector2((v.x - rect.xMin) / rect.width, (v.y - rect.yMin) / rect.height);
+                    uiv.color = color;
+                    vh.AddVert(uiv);
+                }
+                vh.AddTriangle(0, 1, 2);
+                vh.AddTriangle(2, 3, 0);
+        }
     }
 }

@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Demo/Scenes/DemoGeometry.unity
     guid: 21123cef96f494e5a8b2956bd81d0df7
+  - enabled: 1
+    path: Assets/Demo/Scenes/DemoFragment.unity
+    guid: 522823bfc9b8d4075bea477c24b7ff74
+  - enabled: 1
+    path: Assets/Demo/Scenes/DemoMeshIcon.unity
+    guid: e23ea3a28843344d38b27ff0819bff65
   m_configObjects: {}

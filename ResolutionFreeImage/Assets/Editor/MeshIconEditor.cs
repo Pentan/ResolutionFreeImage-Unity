@@ -18,6 +18,8 @@ namespace ResFreeImage.UI {
         protected SerializedProperty useMeshVertexColorProp;
         protected SerializedProperty removeBackFaceProp;
         protected SerializedProperty sortTrianglesProp;
+        protected SerializedProperty keepMeshOriginProp;
+        protected SerializedProperty keepMeshZProp;
 
         protected override void OnEnable() {
             base.OnEnable();
@@ -29,6 +31,8 @@ namespace ResFreeImage.UI {
             useMeshVertexColorProp = serializedObject.FindProperty("useMeshVertexColor");
             removeBackFaceProp = serializedObject.FindProperty("removeBackFace");
             sortTrianglesProp = serializedObject.FindProperty("sortTriangles");
+            keepMeshOriginProp = serializedObject.FindProperty("keepMeshOrigin");
+            keepMeshZProp = serializedObject.FindProperty("keepMeshZ");
         }
 
         public override void OnInspectorGUI() {
@@ -52,6 +56,8 @@ namespace ResFreeImage.UI {
                 EditorGUILayout.PropertyField(useMeshVertexColorProp);
                 EditorGUILayout.PropertyField(removeBackFaceProp);
                 EditorGUILayout.PropertyField(sortTrianglesProp);
+                EditorGUILayout.PropertyField(keepMeshOriginProp);
+                EditorGUILayout.PropertyField(keepMeshZProp);
             }
             serializedObject.ApplyModifiedProperties();
             if(EditorGUI.EndChangeCheck()) {
