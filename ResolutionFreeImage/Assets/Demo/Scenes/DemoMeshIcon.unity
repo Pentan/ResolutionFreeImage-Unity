@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -274,8 +274,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Use Mesh Vertex Color ON/OFF
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5c2feaff64ed2465ca908b224fe4eb47, type: 2}
-  m_sharedMaterial: {fileID: 21643073732442810, guid: 5c2feaff64ed2465ca908b224fe4eb47,
+  m_fontAsset: {fileID: 11400000, guid: 8968b182a68674951839abd1d728564f, type: 2}
+  m_sharedMaterial: {fileID: 21203491920466878, guid: 8968b182a68674951839abd1d728564f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -676,8 +676,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: MeshIcon demo
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5c2feaff64ed2465ca908b224fe4eb47, type: 2}
-  m_sharedMaterial: {fileID: 21643073732442810, guid: 5c2feaff64ed2465ca908b224fe4eb47,
+  m_fontAsset: {fileID: 11400000, guid: 8968b182a68674951839abd1d728564f, type: 2}
+  m_sharedMaterial: {fileID: 21203491920466878, guid: 8968b182a68674951839abd1d728564f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -721,7 +721,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 0
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -1150,8 +1150,9 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Backface removal
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8968b182a68674951839abd1d728564f, type: 2}
+  m_sharedMaterial: {fileID: 21203491920466878, guid: 8968b182a68674951839abd1d728564f,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1447,8 +1448,9 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Mesh vertex color
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8968b182a68674951839abd1d728564f, type: 2}
+  m_sharedMaterial: {fileID: 21203491920466878, guid: 8968b182a68674951839abd1d728564f,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1802,8 +1804,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Remove backface ON/OFF
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5c2feaff64ed2465ca908b224fe4eb47, type: 2}
-  m_sharedMaterial: {fileID: 21643073732442810, guid: 5c2feaff64ed2465ca908b224fe4eb47,
+  m_fontAsset: {fileID: 11400000, guid: 8968b182a68674951839abd1d728564f, type: 2}
+  m_sharedMaterial: {fileID: 21203491920466878, guid: 8968b182a68674951839abd1d728564f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2864,8 +2866,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Sort Triangle ON/OFF (Normal/None)
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5c2feaff64ed2465ca908b224fe4eb47, type: 2}
-  m_sharedMaterial: {fileID: 21643073732442810, guid: 5c2feaff64ed2465ca908b224fe4eb47,
+  m_fontAsset: {fileID: 11400000, guid: 8968b182a68674951839abd1d728564f, type: 2}
+  m_sharedMaterial: {fileID: 21203491920466878, guid: 8968b182a68674951839abd1d728564f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3025,8 +3027,9 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Triangle Z sort
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8968b182a68674951839abd1d728564f, type: 2}
+  m_sharedMaterial: {fileID: 21203491920466878, guid: 8968b182a68674951839abd1d728564f,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3459,7 +3462,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1464180460124842326}
   m_Direction: 2
   m_Value: 0.9999996
-  m_Size: 0.8513103
+  m_Size: 0.8545429
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3745,8 +3748,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1728143243395792970}
   m_HandleRect: {fileID: 6555625129619307153}
   m_Direction: 0
-  m_Value: 0.5
-  m_Size: 0.9999999
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -68,8 +68,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Wireframe
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5c2feaff64ed2465ca908b224fe4eb47, type: 2}
-  m_sharedMaterial: {fileID: 21643073732442810, guid: 5c2feaff64ed2465ca908b224fe4eb47,
+  m_fontAsset: {fileID: 11400000, guid: 8968b182a68674951839abd1d728564f, type: 2}
+  m_sharedMaterial: {fileID: 21203491920466878, guid: 8968b182a68674951839abd1d728564f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -244,8 +244,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: With border
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5c2feaff64ed2465ca908b224fe4eb47, type: 2}
-  m_sharedMaterial: {fileID: 21643073732442810, guid: 5c2feaff64ed2465ca908b224fe4eb47,
+  m_fontAsset: {fileID: 11400000, guid: 8968b182a68674951839abd1d728564f, type: 2}
+  m_sharedMaterial: {fileID: 21203491920466878, guid: 8968b182a68674951839abd1d728564f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -678,8 +678,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Item description text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5c2feaff64ed2465ca908b224fe4eb47, type: 2}
-  m_sharedMaterial: {fileID: 21643073732442810, guid: 5c2feaff64ed2465ca908b224fe4eb47,
+  m_fontAsset: {fileID: 11400000, guid: 8968b182a68674951839abd1d728564f, type: 2}
+  m_sharedMaterial: {fileID: 21203491920466878, guid: 8968b182a68674951839abd1d728564f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
