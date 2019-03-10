@@ -51,6 +51,11 @@ namespace ResFreeImage.UI {
                 rect.yMin + margin.bottom,
                 rect.xMin + margin.left
             );
+
+            if(shapebounds.GetWidth() < 0.0f || shapebounds.GetHeight() < 0.0f) {
+                vh.Clear();
+                return;
+            }
             
             // Vertices list is clock wise.
             List<Vector2> verts;
@@ -258,12 +263,21 @@ namespace ResFreeImage.UI {
                 var inext = (i + 1) % srcloop.Count;
                 var p1 = srcloop[i];
                 var p2 = srcloop[inext];
-                var n1 = (p2 - p1).normalized;
+                var n1 = p2 - p1;
                 n1.Set(n1.y, -n1.x);
+                if(n1.sqrMagnitude < 1e-2f) {
+                    ret.Add(p1);
+                    continue;
+                }
                 n1.Normalize();
 
-                var n = (n0 + n1).normalized;
-                float s = 1.0f / Vector2.Dot(n, n1);
+                var n = n0 + n1;
+                if(n.sqrMagnitude < 1e-2f) {
+                    ret.Add(p1);
+                    continue;
+                }
+                n.Normalize();
+                float s = 1.0f / Mathf.Max(0.1f, Vector2.Dot(n, n1));
                 var p = p1 + n * s * inset;
                 
                 ret.Add(p);
