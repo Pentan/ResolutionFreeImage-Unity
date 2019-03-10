@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ScrollBarCommon
+  m_Name: SliderCommon
   m_Shader: {fileID: 4800000, guid: 280dae04bb71b41bab15c7e0e878fa28, type: 3}
-  m_ShaderKeywords: FRGSHP_SHADING_BORDER_PROFILE_SPHERE FRGSHP_SHADING_MAIN_PROFILE_SPHERE
+  m_ShaderKeywords: FRGSHP_SHADING_BORDER_PROFILE_SPHERE FRGSHP_SHADING_MAIN_PROFILE_PARABOLA
     FRGSHP_SHADING_TYPE_MULTIPLY FRGSHP_SHAPE_CAPSULE FRGSHP_USE_SHADING FRGSHP_UV2OVERRIDE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -58,10 +58,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - FRGSHP_SHADING_BORDER_PROFILE: 1
-    - FRGSHP_SHADING_MAIN_PROFILE: 1
+    - FRGSHP_SHADING_MAIN_PROFILE: 2
     - FRGSHP_SHADING_TYPE: 0
     - FRGSHP_SHAPE: 1
-    - _BornderWidth: 0
+    - _BornderWidth: 1
     - _BumpScale: 1
     - _ColorMask: 15
     - _CornerRadius: 10
@@ -80,7 +80,7 @@ Material:
     - _Parallax: 0.02
     - _ShadingBorderPowFactor: 4
     - _ShadingMainPowFactor: 4
-    - _ShadingMainWidth: 4
+    - _ShadingMainWidth: 2
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -102,4 +102,4 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineGlowColor: {r: 0, g: 0, b: 0, a: 0.5}
-    - _ShadingAmbient: {r: 0.37112856, g: 0.43516487, b: 0.5660378, a: 1}
+    - _ShadingAmbient: {r: 0.65882355, g: 0.65882355, b: 0.65882355, a: 1}
