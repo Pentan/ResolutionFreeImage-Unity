@@ -45,11 +45,13 @@ namespace ResFreeImage.UI {
                 EditorGUILayout.PropertyField(overrideCornerRadiusProp);
                 EditorGUILayout.PropertyField(overrideBorderWidthProp);
 
-                var shaderChFlags = AdditionalCanvasShaderChannels.TexCoord1 | AdditionalCanvasShaderChannels.TexCoord2;
-                if((canvas.additionalShaderChannels & shaderChFlags) != shaderChFlags) {
-                    EditorGUILayout.Space();
-                    string msg = "FragmentShape use Texcoord1 and Texcoord2. Check \"Additional Shader Channel\" field of Canvas (" + canvas.name + ").";
-                    EditorGUILayout.HelpBox(msg, MessageType.Error);
+                if(canvas != null) {
+                    var shaderChFlags = AdditionalCanvasShaderChannels.TexCoord1 | AdditionalCanvasShaderChannels.TexCoord2;
+                    if((canvas.additionalShaderChannels & shaderChFlags) != shaderChFlags) {
+                        EditorGUILayout.Space();
+                        string msg = "FragmentShape use Texcoord1 and Texcoord2. Check \"Additional Shader Channel\" field of Canvas (" + canvas.name + ").";
+                        EditorGUILayout.HelpBox(msg, MessageType.Error);
+                    }
                 }
             }
             serializedObject.ApplyModifiedProperties();
