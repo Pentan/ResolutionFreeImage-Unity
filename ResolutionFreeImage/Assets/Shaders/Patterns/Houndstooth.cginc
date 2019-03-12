@@ -3,10 +3,9 @@
 
 // ## Calculate EXACT distance as possible as you can in pattern functions. ##
 
-#include "ShapeUtils.cginc"
+// #include "ShapeUtils.cginc"
 
-fixed4 houndstoothPattern(float2 uv, float es, fixed4 col0, fixed4 col1) {
-    
+fixed4 houndstoothDistance(float2 uv) {
     // (-1,1) = x2
     float2 p = (frac(uv) - 0.5) * 2.0;
 
@@ -41,8 +40,11 @@ fixed4 houndstoothPattern(float2 uv, float es, fixed4 col0, fixed4 col1) {
     d = max(d, d5);
 
     // make x1
-    d *= 0.5;
+    return d * 0.5;
+}
 
+fixed4 houndstoothPattern(float2 uv, float es, fixed4 col0, fixed4 col1) {
+    float d = houndstoothDistance(uv);
     // vec3 rgb = vec3(0.0);
     // rgb.xy = p;
     // rgb.xy = p0;

@@ -3,7 +3,7 @@
 
 // ## Calculate EXACT distance as possible as you can in pattern functions. ##
 
-#include "ShapeUtils.cginc"
+// #include "ShapeUtils.cginc"
 
 // asp: aspect ratio, lw: line width
 fixed4 argylePattern(float2 uv, float es, float asp, float lw, fixed4 basecol0, fixed4 basecol1, fixed4 linecol) {

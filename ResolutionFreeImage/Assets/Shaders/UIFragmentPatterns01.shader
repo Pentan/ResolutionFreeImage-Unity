@@ -157,7 +157,7 @@
                 patterncolor = checkerPattern(p, es, _PatternColor0, _PatternColor1);
                 #endif
                 #ifdef FRGPTN_TYPE_REGULAR_DOTS
-                patterncolor = dotRegulatPattern(p, es, _PatternParams0.x, _PatternColor0, _PatternColor1);
+                patterncolor = dotRegularPattern(p, es, _PatternParams0.x, _PatternColor0, _PatternColor1);
                 #endif
                 #ifdef FRGPTN_TYPE_STAGGER_DOTS
                 patterncolor = dotStaggerPattern(p, es, _PatternParams0.x, _PatternColor0, _PatternColor1);

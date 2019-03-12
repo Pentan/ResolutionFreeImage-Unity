@@ -3,7 +3,7 @@
 
 // ## Calculate EXACT distance as possible as you can in pattern functions. ##
 
-#include "ShapeUtils.cginc"
+// #include "ShapeUtils.cginc"
 
 // Simple tartan pattern sample
 // linew = (line 0 width, line 1 width)
