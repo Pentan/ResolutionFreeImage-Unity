@@ -237,10 +237,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 259483682}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d347ac1953824cb2b0b84e92cafb39a, type: 3}
+  m_Script: {fileID: 11500000, guid: ed6d672a11be74ecaa4258443af1f7a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fd152377d398e443d8825b9f47e9d500, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -254,11 +254,8 @@ MonoBehaviour:
     right: 0
     bottom: 0
     left: 0
-  borderWidth: 0
-  borderColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  shapeType: 0
-  cornerRadius: 8
-  maxArcLength: 4
+  overrideCornerRadius: -1
+  overrideBorderWidth: -1
 --- !u!222 &259483685
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -285,7 +282,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &295822840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,7 +339,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 3
   m_SortingLayerID: 0
   m_SortingOrder: 2048
   m_TargetDisplay: 0
@@ -410,8 +407,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0be6cf01148f4e50a7f8843017ede06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneSelector: {fileID: 0}
   menuController: {fileID: 620138278}
+  wipeStartDelay: 0.2
 --- !u!114 &351672343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,6 +423,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wipeCanvasObject: {fileID: 295822839}
   wipeGraphic: {fileID: 259483684}
+  WipeDuration: 0.35
   OnWipeStart:
     m_PersistentCalls:
       m_Calls: []

@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WipeMaterial
+  m_Shader: {fileID: 4800000, guid: abd0ef0b093d9457989fa5f23fcd01ce, type: 3}
+  m_ShaderKeywords: FRGPTN_TYPE_HOUNDSTOOTH WIPE_DISAPPEAR_ONEWAY WIPE_DISAPPEAR_ONE_WAY
+    WIPE_FROM_LEFT WIPE_TYPE_REGULAR_DOTS
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - FRGPTN_COORD: 0
+    - FRGPTN_TYPE: 3
+    - WIPE_COORD: 0
+    - WIPE_DISAPPEAR: 0
+    - WIPE_FROM: 0
+    - WIPE_TYPE: 0
+    - _ColorMask: 15
+    - _EdgeSmooth: 0.5
+    - _Glossiness: 0.5
+    - _Metallic: 0
+    - _PatternUnit: 64
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    - _WipeStep: 2
+    m_Colors:
+    - _Color: {r: 0.5660378, g: 0.45182326, b: 0.040049836, a: 1}
+    - _PatternColor0: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _PatternColor1: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _PatternColor2: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+    - _PatternParams0: {r: 0, g: 1, b: 1, a: 1}
+    - _WipeOffset: {r: 1, g: 1, b: 1, a: 1}
