@@ -83,6 +83,8 @@ namespace ResFreeImage.UI {
             // var verts = MakeCapsuleLineLoop(shapebounds);
             // var verts = MakeRoundRectLineLoop(shapebounds);
 
+            RemoveDegenerateEdges(verts, 0.1f);
+
             vh.Clear();
 
             if(borderWidth > 0.0f) {
@@ -253,11 +255,27 @@ namespace ResFreeImage.UI {
             return ret;
         }
 
+        private void RemoveDegenerateEdges(List<Vector2> srcloop, float minlen=0.1f) {
+            minlen *= minlen;
+            int i = 0;
+            while(i < srcloop.Count) {
+                var p0 = srcloop[i];
+                var p1 = srcloop[(i + 1) % srcloop.Count];
+                var v = p1 - p0;
+                if(v.sqrMagnitude < minlen) {
+                    srcloop.RemoveAt(i);
+                } else {
+                    i += 1;
+                }
+            }
+        }
+
         private List<Vector2> MakeInsetLineLoop(List<Vector2> srcloop, float inset) {
             var ret = new List<Vector2>(srcloop.Count);
 
             var n0 = (srcloop[0] - srcloop[srcloop.Count - 1]).normalized;
             n0.Set(n0.y, -n0.x);
+            var lastp = srcloop[0];
 
             for(int i = 0; i < srcloop.Count; i++) {
                 var inext = (i + 1) % srcloop.Count;
@@ -266,14 +284,14 @@ namespace ResFreeImage.UI {
                 var n1 = p2 - p1;
                 n1.Set(n1.y, -n1.x);
                 if(n1.sqrMagnitude < 1e-2f) {
-                    ret.Add(p1);
+                    ret.Add(lastp);
                     continue;
                 }
                 n1.Normalize();
 
                 var n = n0 + n1;
                 if(n.sqrMagnitude < 1e-2f) {
-                    ret.Add(p1);
+                    ret.Add(lastp);
                     continue;
                 }
                 n.Normalize();
@@ -283,6 +301,7 @@ namespace ResFreeImage.UI {
                 ret.Add(p);
 
                 n0 = n1;
+                lastp = p;
             }
 
             return ret;

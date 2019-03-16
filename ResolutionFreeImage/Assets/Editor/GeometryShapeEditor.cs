@@ -43,14 +43,16 @@ namespace ResFreeImage.UI {
                 
                 EditorGUILayout.Space();
                 EditorGUILayout.PropertyField(textureProp);
-                EditorGUILayout.PropertyField(marginProp, true);
                 EditorGUILayout.PropertyField(borderWidthProp);
                 EditorGUILayout.PropertyField(borderColorProp);
+                EditorGUILayout.PropertyField(marginProp, true);
                 EditorGUILayout.PropertyField(shapeTypeProp);
                 
                 if(shapeTypeProp.enumValueIndex != (int)GeometryShape.ShapeType.Rectangle) {
                     EditorGUI.indentLevel++;
-                    EditorGUILayout.PropertyField(cornerRadiusProp);
+                    if(shapeTypeProp.enumValueIndex == (int)GeometryShape.ShapeType.RoundRect) {
+                        EditorGUILayout.PropertyField(cornerRadiusProp);
+                    }
                     if(shapeTypeProp.enumValueIndex != (int)GeometryShape.ShapeType.TrimedRect) {
                         EditorGUILayout.PropertyField(maxArcLengthProp);
                     }
